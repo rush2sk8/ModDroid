@@ -40,7 +40,7 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Animation fade = new AlphaAnimation(0, 1);
+				final Animation fade = new AlphaAnimation(1, 0);
 				fade.setInterpolator(new AccelerateInterpolator());
 				fade.setDuration(1000);
 				fade.setAnimationListener(new AnimationListener() {
@@ -63,7 +63,7 @@ public class MainActivity extends Activity {
 
 					}
 				});
-				Animation fade1 = new AlphaAnimation(1,0);
+				Animation fade1 = new AlphaAnimation(0,1);
 				fade1.setInterpolator(new AccelerateInterpolator());
 				fade1.setDuration(1000);
 

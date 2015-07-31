@@ -9,12 +9,40 @@
     tools:context="com.example.moddroid.ModSettings" >
 
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/ipTextField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="64dp"
-        android:ems="10" />
+        android:ems="10"
+        android:hint="Enter the Gateway IP" />
+
+    <Button
+        android:id="@+id/saveSettings"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="25dp"
+        android:text="Save" />
+
+    <EditText
+        android:id="@+id/addresses"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/ipTextField"
+        android:layout_below="@+id/ipTextField"
+        android:layout_marginTop="120dp"
+        android:ems="10"
+        android:hint="Enter the Start Addresses delimited by a comma" >
+
+        <requestFocus />
+        <requestFocus />
+
+    </EditText>
 
 </RelativeLayout>

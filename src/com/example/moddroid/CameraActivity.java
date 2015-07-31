@@ -103,7 +103,7 @@ public class CameraActivity extends Activity {
 
 				if ((width1 != width2) || (height1 != height2)) {
 					Toast.makeText(getApplicationContext(), "not the same size", Toast.LENGTH_SHORT).show();				
-					return;
+					getFace(false);
 				}
 
 				//percent difference
