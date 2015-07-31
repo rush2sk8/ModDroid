@@ -46,7 +46,7 @@ public class CameraActivity extends Activity {
 		editor = preferences.edit();
 
 		int l = preferences.getInt("FIRST_LAUNCH", 0);
-		System.out.println("L: " + l);
+
 		//it is the first launch
 		if(l != FIRST_LAUNCH) {
 			//capture the face
@@ -84,7 +84,7 @@ public class CameraActivity extends Activity {
 				Toast.makeText(getApplicationContext(), "saving problem", Toast.LENGTH_LONG).show();
 				e.printStackTrace();
 			}
-			Toast.makeText(getApplicationContext(), "Picture Saved", Toast.LENGTH_LONG).show();
+
 		}
 		else if(resultCode == RESULT_OK && requestCode == AUTH_FACE) {
 
@@ -135,7 +135,8 @@ public class CameraActivity extends Activity {
 				     getFace(false);
 				}
 				else {
-					
+					startActivity(new Intent(getApplicationContext(), MainActivity.class));
+					finish();
 				}
 				
 				
