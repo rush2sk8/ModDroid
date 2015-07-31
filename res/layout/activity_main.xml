@@ -9,8 +9,42 @@
     tools:context="com.example.moddroid.MainActivity" >
 
     <TextView
+        android:id="@+id/nameLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:text="ModDroid"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/settingsButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="68dp"
+        android:text="Settings" />
+
+    <Button
+        android:id="@+id/viewButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/settingsButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="49dp"
+        android:text="View Live Feed" />
+
+    <ImageView
+        android:id="@+id/tudorFace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/viewButton"
+        android:layout_alignRight="@+id/nameLabel"
+        android:layout_marginBottom="24dp"
+        android:src="@drawable/tr"
+        android:visibility="invisible" />
 
 </RelativeLayout>
