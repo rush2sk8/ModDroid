@@ -33,6 +33,10 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_main" >
         </activity>
+        <activity
+            android:name=".ModSettings"
+            android:label="@string/title_activity_mod_settings" >
+        </activity>
     </application>
 
 </manifest>
