@@ -1,23 +1,20 @@
 package com.example.moddroid;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-
-import org.apache.http.client.params.AuthPolicy;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Path;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.widget.Toast;
@@ -109,6 +106,7 @@ public class CameraActivity extends Activity {
 					return;
 				}
 
+				//percent difference
 				long diff = 0;
 				for (int y = 0; y < img1.getHeight(); y++) {
 					for (int x = 0; x < img1.getWidth(); x++) {
@@ -126,13 +124,32 @@ public class CameraActivity extends Activity {
 					}
 				}
 				double n = width1 * height1 * 3;
-				double p = diff / n / 255.0;
+				double p = (diff / n / 255.0)*100;
 				System.out.println("diff percent: " + (p * 100.0));
-				Toast.makeText(getApplicationContext(), "Percent Diff: "+ p*100.0, Toast.LENGTH_SHORT).show();				
+				Toast.makeText(getApplicationContext(), "Percent Diff: "+ p, Toast.LENGTH_SHORT).show();		
+				
+				if(p>20) {
+					 final ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
+				     tg.startTone(ToneGenerator.TONE_PROP_BEEP);
+				     Toast.makeText(getApplicationContext(), "AUTHENTICATION FAILED TRY AGAIN",Toast.LENGTH_SHORT).show();
+				     getFace(false);
+				}
+				else {
+					
+				}
+				
+				
 			} catch (FileNotFoundException e) {
 				Toast.makeText(getApplicationContext(), "Pic Not found", Toast.LENGTH_SHORT).show();				
 				e.printStackTrace();
 			}
+
+		}
+		else if(resultCode == RESULT_CANCELED) {
+			if (requestCode== CAPTURE_IMAGE_REQUEST_CODE) 
+				getFace(true);
+			else
+				getFace(false);
 
 		}
 
