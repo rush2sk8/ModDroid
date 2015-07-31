@@ -19,16 +19,6 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <Button
-        android:id="@+id/settingsButton"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="68dp"
-        android:text="Settings" />
-
-    <Button
         android:id="@+id/viewButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -42,9 +32,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/viewButton"
-        android:layout_alignRight="@+id/nameLabel"
-        android:layout_marginBottom="24dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="220dp"
         android:src="@drawable/tr"
         android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/settingsButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="Settings" />
 
 </RelativeLayout>
