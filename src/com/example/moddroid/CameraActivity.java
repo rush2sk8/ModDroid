@@ -37,6 +37,7 @@ public class CameraActivity extends Activity {
 		}
 		readFirstTime();*/
 		startActivity(new Intent(getApplicationContext(), MainActivity.class));
+		finish();
 	}
 
 	private void readFirstTime(){

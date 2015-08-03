@@ -10,21 +10,29 @@ public class LiveData extends Activity {
 	private TextView label;
 	private Modbus modbus;
 	private String ip;
- 
+
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_live_data);
 
-		
-		
+
+
 		Bundle bundle = getIntent().getExtras();
 		address = Integer.parseInt((String) bundle.get("address"));
 		ip = bundle.getString("ip");
 		modbus = new Modbus(ip, Modbus.DEFAULT_PORT);
 		label = (TextView)findViewById(R.id.label);
 
-		 
-		
+		new Thread(new Runnable() {
+			public void run() {
+				runOnUiThread(new  Runnable() {
+					public void run() {
+						label.setText(label.getText().toString()+"\n"+modbus.getDataFromInputRegister(address));
+					}
+				});
+			}
+		}).start();
+
 		System.out.println(address);
 	}
 
