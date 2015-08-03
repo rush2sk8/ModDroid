@@ -30,7 +30,7 @@ public class ViewGrid extends Activity {
 
 		final ArrayList<String> buttonLabels = new ArrayList<String>();
 		for(String address: preferences.getStringSet("addresses", new TreeSet<String>())) 
-			buttonLabels.add(address);
+			buttonLabels.add(address.trim());
 
 
 

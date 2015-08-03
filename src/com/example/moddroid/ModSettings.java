@@ -42,10 +42,17 @@ public class ModSettings extends Activity {
 
 		if(preferences.getInt("FIRST_LAUNCH", -1)==-1) {
 			delFace.setEnabled(false);
-		}else {
-			preferences.edit().putInt("FIRST_LAUNCH", CameraActivity.FIRST_LAUNCH).apply();;
 		}
 	 
+		delFace.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				preferences.edit().putInt("FIRST_LAUNCH", CameraActivity.FIRST_LAUNCH).apply();;
+				delFace.setEnabled(false);
+			}
+		});
+		
 		final SharedPreferences.Editor editor = preferences.edit();
 
 		save.setOnClickListener(new OnClickListener() {

@@ -12,6 +12,13 @@
         android:id="@+id/label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:maxLines="66"
+        android:scrollbars="vertical"
+        android:text="" >
+    </TextView>
 
 </RelativeLayout>
