@@ -23,7 +23,7 @@ public class LiveData extends Activity {
 		modbus = new Modbus(ip, Modbus.DEFAULT_PORT);
 		label = (TextView)findViewById(R.id.label);
 
-		
+		 
 		
 		System.out.println(address);
 	}
