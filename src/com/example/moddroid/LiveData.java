@@ -1,5 +1,7 @@
 package com.example.moddroid;
 
+import java.util.HashSet;
+
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
@@ -23,7 +25,9 @@ public class LiveData extends Activity {
 	private volatile boolean GO = true;
 	private Thread dataThread;
 	private GraphView graph;
-
+	
+	//TODO add nother mode 4-20 blaze it
+	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -81,7 +85,7 @@ public class LiveData extends Activity {
 
 								if(data!=-1) {
 									series.appendData(dp, true, 50);
-									System.out.println(dp);
+
 									graph.onDataChanged(true, false);
 									graph.getViewport().setMinY(mn-.1);
 									graph.getViewport().setMaxY(mx+.1);
@@ -110,7 +114,7 @@ public class LiveData extends Activity {
 		//		} catch (InterruptedException e) {
 		//			e.printStackTrace();
 		//		}
-
+		super.onBackPressed();
 	}
 
 }
