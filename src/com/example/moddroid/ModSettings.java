@@ -19,7 +19,7 @@ public class ModSettings extends Activity {
 	private SharedPreferences preferences; 
 	private EditText ip;
 	private EditText addresses;
-	private Button save;
+	private Button save,delFace;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -28,6 +28,7 @@ public class ModSettings extends Activity {
 		ip = (EditText)findViewById(R.id.ipTextField);
 		addresses = (EditText)findViewById(R.id.addresses);
 		save = (Button)findViewById(R.id.saveSettings);
+		delFace = (Button)findViewById(R.id.deleteFace);
 
 		View view = this.getCurrentFocus();
 		if (view != null) {  
@@ -39,11 +40,17 @@ public class ModSettings extends Activity {
 		ip.setText(preferences.getString("ip", ""));
 		addresses.setText(preferences.getStringSet("addresses", new TreeSet<String>()).toString());
 
+		if(preferences.getInt("FIRST_LAUNCH", -1)==-1) {
+			delFace.setEnabled(false);
+		}else {
+			preferences.edit().putInt("FIRST_LAUNCH", CameraActivity.FIRST_LAUNCH).apply();;
+		}
+	 
 		final SharedPreferences.Editor editor = preferences.edit();
 
 		save.setOnClickListener(new OnClickListener() {
 
-			@Override
+ 
 			public void onClick(View v) {
 				editor.putString("ip", ip.getText().toString());
 

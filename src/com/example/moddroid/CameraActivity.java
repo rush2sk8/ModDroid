@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 public class CameraActivity extends Activity {
 
-	private static final int FIRST_LAUNCH  = 1;
+	public static final int FIRST_LAUNCH  = 1;
 	private static final int CAPTURE_IMAGE_REQUEST_CODE = 0;
 	private static final int AUTH_FACE = 2;
 	private SharedPreferences.Editor editor;

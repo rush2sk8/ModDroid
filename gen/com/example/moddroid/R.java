@@ -26,9 +26,10 @@ public final class R {
         public static final int tr=0x7f020001;
     }
     public static final class id {
-        public static final int action_settings=0x7f080009;
+        public static final int action_settings=0x7f08000a;
         public static final int addresses=0x7f080007;
-        public static final int grid=0x7f080008;
+        public static final int deleteFace=0x7f080008;
+        public static final int grid=0x7f080009;
         public static final int ipTextField=0x7f080005;
         public static final int label=0x7f080000;
         public static final int nameLabel=0x7f080001;
