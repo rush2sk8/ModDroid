@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.AudioManager;
@@ -32,12 +31,12 @@ public class CameraActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_camera);
 
-		if(!getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
+/*		if(!getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
 			Toast.makeText(getApplicationContext(), "You dont have a camera now exiting", Toast.LENGTH_LONG).show();
 			System.exit(0);
 		}
-		readFirstTime();
-
+		readFirstTime();*/
+		startActivity(new Intent(getApplicationContext(), MainActivity.class));
 	}
 
 	private void readFirstTime(){
@@ -49,8 +48,8 @@ public class CameraActivity extends Activity {
 
 		//it is the first launch
 		if(l != FIRST_LAUNCH) {
+			
 			//capture the face
-
 			Toast.makeText(getApplicationContext(), "Take a Picture of your face for authentication", Toast.LENGTH_LONG).show();
 
 			getFace(true);

@@ -37,6 +37,14 @@
             android:name=".ModSettings"
             android:label="@string/title_activity_mod_settings" >
         </activity>
+        <activity
+            android:name=".ViewGrid"
+            android:label="@string/title_activity_view_grid" >
+        </activity>
+        <activity
+            android:name=".LiveData"
+            android:label="@string/title_activity_live_data" >
+        </activity>
     </application>
 
 </manifest>

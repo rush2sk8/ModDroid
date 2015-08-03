@@ -6,5 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_mod_settings">ModSettings</string>
+    <string name="title_activity_view_grid">ViewGrid</string>
+    <string name="title_activity_live_data">LiveData</string>
 
 </resources>

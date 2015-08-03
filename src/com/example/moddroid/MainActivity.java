@@ -16,7 +16,7 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
 
 
-	private Button settings;
+	private Button settings, viewLive;
 	private TextView tv;
 	private ImageView iv;
 
@@ -47,13 +47,13 @@ public class MainActivity extends Activity {
 
 					@Override
 					public void onAnimationStart(Animation animation) {
-						// TODO Auto-generated method stub
+ 
 
 					}
 
 					@Override
 					public void onAnimationRepeat(Animation animation) {
-						// TODO Auto-generated method stub
+ 
 
 					}
 
@@ -63,6 +63,7 @@ public class MainActivity extends Activity {
 
 					}
 				});
+			
 				Animation fade1 = new AlphaAnimation(0,1);
 				fade1.setInterpolator(new AccelerateInterpolator());
 				fade1.setDuration(1000);
@@ -71,25 +72,35 @@ public class MainActivity extends Activity {
 
 					@Override
 					public void onAnimationStart(Animation animation) {
-						// TODO Auto-generated method stub
+				 
 
 					}
 
 					@Override
 					public void onAnimationRepeat(Animation animation) {
-						// TODO Auto-generated method stub
+ 
 
 					}
 
 					@Override
 					public void onAnimationEnd(Animation animation) {
-					iv.startAnimation(fade);
+						iv.startAnimation(fade);
 
 					}
 				});
-				
-			
+
+
 				iv.startAnimation(fade1);
+			}
+		});
+
+		viewLive = (Button)findViewById(R.id.viewButton);
+		viewLive.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(getApplicationContext(),ViewGrid.class));
+		 
 			}
 		});
 	}
