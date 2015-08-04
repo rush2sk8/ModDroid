@@ -67,9 +67,9 @@ public class LiveData extends Activity {
 
 				while(GO) {
 					try {
-
-						//every 5 seconds
-						Thread.sleep(5000);
+						//get start time for the contol loop
+						long startTime = System.currentTimeMillis();
+					
 						final float data = modbus.getDataFromInputRegister(address);
 						final DataPoint dp = new DataPoint(time, data);
 
@@ -108,6 +108,9 @@ public class LiveData extends Activity {
 						});
 
 						time += 5;
+						
+						Thread.sleep(5000-(System.currentTimeMillis()-startTime));
+						
 					} catch (InterruptedException e) {
 
 						e.printStackTrace();

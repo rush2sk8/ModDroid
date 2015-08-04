@@ -1,12 +1,7 @@
 package com.example.moddroid;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.TreeSet;
-
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
 
 import android.app.Activity;
 import android.content.Context;
