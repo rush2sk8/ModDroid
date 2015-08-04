@@ -23,27 +23,21 @@ public class ViewGrid extends Activity {
 
 	private SharedPreferences preferences; 	
 	private GridView grid;
-	
-	public static Map<Integer, LineGraphSeries<DataPoint>> data;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_grid);
 
-		data = new HashMap<Integer, LineGraphSeries<DataPoint>>();
 		preferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
 		grid = (GridView)findViewById(R.id.grid);
 
-
 		final ArrayList<String> buttonLabels = new ArrayList<String>();
+		
 		for(String address: preferences.getStringSet("addresses", new TreeSet<String>())) 
 			buttonLabels.add(address.trim());
 
-
-
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_dropdown_item_1line, buttonLabels);
-
 
 		grid.setAdapter(adapter);
 
@@ -59,10 +53,5 @@ public class ViewGrid extends Activity {
 			}
 		});
 
-
 	}
-
-
-
-
 }

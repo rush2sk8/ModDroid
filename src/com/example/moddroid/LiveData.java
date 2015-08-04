@@ -33,7 +33,6 @@ public class LiveData extends Activity {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		setContentView(R.layout.activity_live_data);
 
-
 		Bundle bundle = getIntent().getExtras();
 		address = Integer.parseInt(((String) bundle.get("address")).trim());
 		ip = bundle.getString("ip").trim();
@@ -41,6 +40,8 @@ public class LiveData extends Activity {
 
 		graph = (GraphView)findViewById(R.id.graph);
 
+		series = new LineGraphSeries<DataPoint>();
+		
 		series.setOnDataPointTapListener(new OnDataPointTapListener() {
 
 			@Override
@@ -50,17 +51,12 @@ public class LiveData extends Activity {
 			}
 		});
 
-
 		graph.addSeries(series);
 		graph.getViewport().setYAxisBoundsManual(true);
-
-		//graph.getViewport().setXAxisBoundsManual(true); //makes it all one part without removing data
-		//graph.getViewport().setScrollable(true);
 
 		dataThread = new Thread(new Runnable() {
 
 			public void run() {	
-			
 
 				float min = Float.MAX_VALUE;
 				float max = 1;
@@ -72,17 +68,13 @@ public class LiveData extends Activity {
 						final float data = modbus.getDataFromInputRegister(address);
 						final DataPoint dp = new DataPoint(time, data);
 
-						final float mn;
-						final float mx;
-
 						if(data>max)
 							max = data;
 						if(data<min&&data!=-1)
 							min = data;
 
-						mn = min;
-						mx = max;
-
+						final float mn = min;
+						final float mx = max;
 
 						runOnUiThread(new Runnable() {
 
@@ -93,20 +85,22 @@ public class LiveData extends Activity {
 									series.appendData(dp, true, 50);
 
 									graph.onDataChanged(true, false);
+
 									synchronized(scaleable) {
+
 										if(scaleable) {
 											graph.getViewport().setMinY(mn-.1);
 											graph.getViewport().setMaxY(mx+.1);	
+
 										}else {
 											graph.getViewport().setMinY(4);
 											graph.getViewport().setMaxY(20);	
 										}
 									}
-
-
 								}
 							}
 						});
+
 						time += 5;
 					} catch (InterruptedException e) {
 
@@ -117,7 +111,6 @@ public class LiveData extends Activity {
 		});
 
 		dataThread.start();
-		System.out.println(address);
 	}
 
 	public void onBackPressed() {
