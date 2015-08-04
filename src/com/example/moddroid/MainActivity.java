@@ -34,6 +34,7 @@ public class MainActivity extends Activity {
 			}
 		});
 
+		//fade tudor
 		iv = (ImageView)findViewById(R.id.tudorFace);
 		tv = (TextView)findViewById(R.id.nameLabel);
 		tv.setOnClickListener(new OnClickListener() {

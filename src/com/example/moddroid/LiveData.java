@@ -9,7 +9,6 @@ import com.jjoe64.graphview.series.Series;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
-import android.graphics.drawable.ScaleDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,6 +32,7 @@ public class LiveData extends Activity {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		setContentView(R.layout.activity_live_data);
 
+		//gets the address from the intent
 		Bundle bundle = getIntent().getExtras();
 		address = Integer.parseInt(((String) bundle.get("address")).trim());
 		ip = bundle.getString("ip").trim();
@@ -42,6 +42,7 @@ public class LiveData extends Activity {
 
 		series = new LineGraphSeries<DataPoint>();
 		
+		//make each point tappable
 		series.setOnDataPointTapListener(new OnDataPointTapListener() {
 
 			@Override
@@ -54,20 +55,25 @@ public class LiveData extends Activity {
 		graph.addSeries(series);
 		graph.getViewport().setYAxisBoundsManual(true);
 
+		
+		//a thread to get the data
 		dataThread = new Thread(new Runnable() {
 
 			public void run() {	
 
+				//for resizing the bars
 				float min = Float.MAX_VALUE;
 				float max = 1;
 
 				while(GO) {
 					try {
 
+						//every 5 seconds
 						Thread.sleep(5000);
 						final float data = modbus.getDataFromInputRegister(address);
 						final DataPoint dp = new DataPoint(time, data);
 
+						//reisizing the bars
 						if(data>max)
 							max = data;
 						if(data<min&&data!=-1)
@@ -76,9 +82,9 @@ public class LiveData extends Activity {
 						final float mn = min;
 						final float mx = max;
 
+						//rerun the data on the main ui thread
 						runOnUiThread(new Runnable() {
 
-							@Override
 							public void run() {
 
 								if(data!=-1) {
@@ -113,25 +119,26 @@ public class LiveData extends Activity {
 		dataThread.start();
 	}
 
+	//close thread
 	public void onBackPressed() {
 		Toast.makeText(getApplicationContext(), "Please Wait\nTerminating Thread", Toast.LENGTH_LONG).show();
 		GO = false;
 
-		try {
-			dataThread.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}	
+		try {dataThread.join();} catch (InterruptedException e) {e.printStackTrace();}	
+	
 		finish();
-
+		
 		super.onBackPressed();
 	}
+	
+	//self explanatory
 	public boolean onCreateOptionsMenu(Menu menu) {
 
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
 
+	//when something is selected do something
 	public boolean onOptionsItemSelected(MenuItem item) {
 		synchronized (scaleable) {
 			if (item.getItemId() == R.id.fourTwenty) 

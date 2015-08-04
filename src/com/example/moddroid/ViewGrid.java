@@ -29,11 +29,13 @@ public class ViewGrid extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_grid);
 
+		//gets the data preferences
 		preferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
 		grid = (GridView)findViewById(R.id.grid);
 
 		final ArrayList<String> buttonLabels = new ArrayList<String>();
 		
+		//addings the buttons to the screen
 		for(String address: preferences.getStringSet("addresses", new TreeSet<String>())) 
 			buttonLabels.add(address.trim());
 
@@ -45,6 +47,8 @@ public class ViewGrid extends Activity {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			
+				//make the pending intent and adding the data to it
 				Intent intent = new Intent(getApplicationContext(),LiveData.class);
 				intent.putExtra("address", buttonLabels.get((int)id));
 				intent.putExtra("ip", preferences.getString("ip", ""));

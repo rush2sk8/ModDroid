@@ -3,7 +3,6 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.ghgande.j2mod.modbus.ModbusException;
 import com.ghgande.j2mod.modbus.io.ModbusTCPTransaction;
 import com.ghgande.j2mod.modbus.msg.ReadInputRegistersRequest;
 import com.ghgande.j2mod.modbus.msg.ReadInputRegistersResponse;
@@ -161,12 +160,5 @@ public class Modbus {
 		GO = new AtomicBoolean(false);
 	}
 
-	/**TEST LOCATION**/
-	public static void main(String[] args) throws Exception {
-		Modbus modbus = new Modbus("192.168.1.101", 502);
 
-		modbus.startFindingPollTimes(new int[]{0});
-
-
-	}
 }
