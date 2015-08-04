@@ -1,7 +1,12 @@
 package com.example.moddroid;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeSet;
+
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,12 +23,15 @@ public class ViewGrid extends Activity {
 
 	private SharedPreferences preferences; 	
 	private GridView grid;
+	
+	public static Map<Integer, LineGraphSeries<DataPoint>> data;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_view_grid);
 
+		data = new HashMap<Integer, LineGraphSeries<DataPoint>>();
 		preferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
 		grid = (GridView)findViewById(R.id.grid);
 

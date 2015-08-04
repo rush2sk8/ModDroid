@@ -3,9 +3,13 @@
     tools:context="com.example.moddroid.MainActivity" >
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/scaled"
         android:orderInCategory="100"
         android:showAsAction="never"
-        android:title="@string/action_settings"/>
-
+        android:title="Scaled Graph"/>
+    <item
+        android:id="@+id/fourTwenty"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="4-20 mA"/>
 </menu>

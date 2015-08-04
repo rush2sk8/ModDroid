@@ -1,9 +1,6 @@
 package com.example.moddroid;
 
-import java.util.HashSet;
-
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.DataPointInterface;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -12,8 +9,10 @@ import com.jjoe64.graphview.series.Series;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import android.graphics.drawable.ScaleDrawable;
 import android.os.Bundle;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 public class LiveData extends Activity {
@@ -25,9 +24,10 @@ public class LiveData extends Activity {
 	private volatile boolean GO = true;
 	private Thread dataThread;
 	private GraphView graph;
-	
-	//TODO add nother mode 4-20 blaze it
-	
+	private Boolean scaleable = true;
+	private LineGraphSeries<DataPoint> series;
+	private double time = 0;
+
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -41,8 +41,6 @@ public class LiveData extends Activity {
 
 		graph = (GraphView)findViewById(R.id.graph);
 
-		final LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>();
-
 		series.setOnDataPointTapListener(new OnDataPointTapListener() {
 
 			@Override
@@ -55,14 +53,18 @@ public class LiveData extends Activity {
 
 		graph.addSeries(series);
 		graph.getViewport().setYAxisBoundsManual(true);
+
 		//graph.getViewport().setXAxisBoundsManual(true); //makes it all one part without removing data
 		//graph.getViewport().setScrollable(true);
+
 		dataThread = new Thread(new Runnable() {
 
 			public void run() {	
-				double time = 0;
+			
+
 				float min = Float.MAX_VALUE;
 				float max = 1;
+
 				while(GO) {
 					try {
 
@@ -70,14 +72,18 @@ public class LiveData extends Activity {
 						final float data = modbus.getDataFromInputRegister(address);
 						final DataPoint dp = new DataPoint(time, data);
 
+						final float mn;
+						final float mx;
 
 						if(data>max)
 							max = data;
 						if(data<min&&data!=-1)
 							min = data;
 
-						final float mn = min;
-						final float mx = max;
+						mn = min;
+						mx = max;
+
+
 						runOnUiThread(new Runnable() {
 
 							@Override
@@ -87,8 +93,16 @@ public class LiveData extends Activity {
 									series.appendData(dp, true, 50);
 
 									graph.onDataChanged(true, false);
-									graph.getViewport().setMinY(mn-.1);
-									graph.getViewport().setMaxY(mx+.1);
+									synchronized(scaleable) {
+										if(scaleable) {
+											graph.getViewport().setMinY(mn-.1);
+											graph.getViewport().setMaxY(mx+.1);	
+										}else {
+											graph.getViewport().setMinY(4);
+											graph.getViewport().setMaxY(20);	
+										}
+									}
+
 
 								}
 							}
@@ -101,20 +115,38 @@ public class LiveData extends Activity {
 				}
 			}
 		});
+
 		dataThread.start();
 		System.out.println(address);
 	}
 
 	public void onBackPressed() {
-		//		Toast.makeText(getApplicationContext(), "Please Wait\nTerminating Thread", Toast.LENGTH_LONG).show();
-		//		GO = false;
-		//		finish();
-		//		try {
-		//			dataThread.join();
-		//		} catch (InterruptedException e) {
-		//			e.printStackTrace();
-		//		}
+		Toast.makeText(getApplicationContext(), "Please Wait\nTerminating Thread", Toast.LENGTH_LONG).show();
+		GO = false;
+
+		try {
+			dataThread.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}	
+		finish();
+
 		super.onBackPressed();
 	}
+	public boolean onCreateOptionsMenu(Menu menu) {
 
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	public boolean onOptionsItemSelected(MenuItem item) {
+		synchronized (scaleable) {
+			if (item.getItemId() == R.id.fourTwenty) 
+				scaleable = false;
+			else if(item.getItemId() == R.id.scaled) 
+				scaleable = true;
+		}
+
+		return true;
+	}
 }
