@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.AudioManager;
@@ -31,7 +32,7 @@ public class CameraActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_camera);
 
-/*		if(!getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
+		/*	if(!getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
 			Toast.makeText(getApplicationContext(), "You dont have a camera now exiting", Toast.LENGTH_LONG).show();
 			System.exit(0);
 		}
@@ -49,7 +50,7 @@ public class CameraActivity extends Activity {
 
 		//it is the first launch
 		if(l != FIRST_LAUNCH) {
-			
+
 			//capture the face
 			Toast.makeText(getApplicationContext(), "Take a Picture of your face for authentication", Toast.LENGTH_LONG).show();
 
@@ -127,19 +128,19 @@ public class CameraActivity extends Activity {
 				double p = (diff / n / 255.0)*100;
 				System.out.println("diff percent: " + (p * 100.0));
 				Toast.makeText(getApplicationContext(), "Percent Diff: "+ p, Toast.LENGTH_SHORT).show();		
-				
+
 				if(p>20) {
-					 final ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
-				     tg.startTone(ToneGenerator.TONE_PROP_BEEP);
-				     Toast.makeText(getApplicationContext(), "AUTHENTICATION FAILED TRY AGAIN",Toast.LENGTH_SHORT).show();
-				     getFace(false);
+					final ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
+					tg.startTone(ToneGenerator.TONE_PROP_BEEP);
+					Toast.makeText(getApplicationContext(), "AUTHENTICATION FAILED TRY AGAIN",Toast.LENGTH_SHORT).show();
+					getFace(false);
 				}
 				else {
 					startActivity(new Intent(getApplicationContext(), MainActivity.class));
 					finish();
 				}
-				
-				
+
+
 			} catch (FileNotFoundException e) {
 				Toast.makeText(getApplicationContext(), "Pic Not found", Toast.LENGTH_SHORT).show();				
 				e.printStackTrace();
