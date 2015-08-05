@@ -8,12 +8,12 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.moddroid.ViewGrid" >
 
-        <GridView
-            android:id="@+id/grid"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:numColumns="2" >
-        </GridView>
- 
+    <GridView
+        android:id="@+id/grid"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:elevation="5dp"
+        android:numColumns="2" >
+    </GridView>
 
 </RelativeLayout>

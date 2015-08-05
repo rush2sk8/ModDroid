@@ -83,7 +83,7 @@ public class LiveData extends Activity {
 						final float data = modbus.getDataFromInputRegister(address);
 						final DataPoint dp = new DataPoint(time, data);
 
-						//reisizing the bars
+						//Resizing the bars
 						if(data>max)
 							max = data;
 						if(data<min&&data!=-1)
@@ -91,14 +91,14 @@ public class LiveData extends Activity {
 
 						final float mn = min;
 						final float mx = max;
-
+ 
 						//rerun the data on the main ui thread
 						runOnUiThread(new Runnable() {
 
 							public void run() {
 
 								if(data!=-1) {
-									series.appendData(dp, true, 500);
+									series.appendData(dp, true, 100);
 
 									graph.onDataChanged(true, false);
 
@@ -126,6 +126,8 @@ public class LiveData extends Activity {
 						e.printStackTrace();
 					}
 				}
+			System.out.println("terminated");
+			
 			}
 		});
 
@@ -134,16 +136,20 @@ public class LiveData extends Activity {
 
 	//close thread
 	public void onBackPressed() {
-		Toast.makeText(getApplicationContext(), "Please Wait\nTerminating Thread", Toast.LENGTH_LONG).show();
 		GO = false;
 
-		try {dataThread.join();} catch (InterruptedException e) {e.printStackTrace();}	
+		new Thread(new Runnable() {
+			
+			public void run() {
+				 
+				try {dataThread.join();} catch (InterruptedException e) {e.printStackTrace();}	
+			}
+		}).start();
 
 		finish();
 
 		super.onBackPressed();
 	}
-
 
 	//self explanatory
 	public boolean onCreateOptionsMenu(Menu menu) {

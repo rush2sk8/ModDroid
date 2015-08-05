@@ -1,11 +1,15 @@
 <resources>
 
-    <!--
-        Base application theme for API 11+. This theme completely replaces
-        AppBaseTheme from res/values/styles.xml on API 11+ devices.
-    -->
-    <style name="AppBaseTheme" parent="android:Theme.Holo.Light">
-        <!-- API 11 theme customizations can go here. -->
+    <!-- inherit from the material theme -->
+    <style name="AppTheme" parent="android:Theme.Material">
+
+        <!-- Main theme colors -->
+        <!-- your app branding color for the app bar -->
+        <item name="android:colorPrimary">#212121</item>
+        <!-- darker variant for the status bar and contextual app bars -->
+        <item name="android:colorPrimaryDark"> #DD2C00</item>
+        <!-- theme UI controls like checkboxes and text fields -->
+        <item name="android:colorAccent">#000000</item>
     </style>
 
 </resources>

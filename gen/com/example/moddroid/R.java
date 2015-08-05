@@ -26,17 +26,18 @@ public final class R {
         public static final int tr=0x7f020001;
     }
     public static final class id {
-        public static final int action_settings=0x7f08000a;
-        public static final int addresses=0x7f080008;
-        public static final int fourTwenty=0x7f08000c;
+        public static final int action_settings=0x7f08000b;
+        public static final int addresses=0x7f080009;
+        public static final int fourTwenty=0x7f08000d;
         public static final int graph=0x7f080001;
-        public static final int grid=0x7f080009;
-        public static final int ipTextField=0x7f080006;
+        public static final int grid=0x7f08000a;
+        public static final int ipTextField=0x7f080007;
         public static final int label=0x7f080000;
+        public static final int layout=0x7f080006;
         public static final int nameLabel=0x7f080002;
-        public static final int saveSettings=0x7f080007;
-        public static final int scaled=0x7f08000b;
-        public static final int screenShot=0x7f08000d;
+        public static final int saveSettings=0x7f080008;
+        public static final int scaled=0x7f08000c;
+        public static final int screenShot=0x7f08000e;
         public static final int settingsButton=0x7f080004;
         public static final int tudorFace=0x7f080005;
         public static final int viewButton=0x7f080003;
@@ -74,21 +75,12 @@ public final class R {
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
         
-
-        Base application theme for API 11+. This theme completely replaces
-        AppBaseTheme from res/values/styles.xml on API 11+ devices.
-    
- API 11 theme customizations can go here. 
-
-        Base application theme for API 14+. This theme completely replaces
-        AppBaseTheme from BOTH res/values/styles.xml and
-        res/values-v11/styles.xml on API 14+ devices.
-    
- API 14 theme customizations can go here. 
          */
         public static final int AppBaseTheme=0x7f060000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
+ inherit from the material theme 
+ inherit from the material theme 
          */
         public static final int AppTheme=0x7f060001;
     }
