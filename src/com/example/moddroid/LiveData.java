@@ -1,6 +1,13 @@
 package com.example.moddroid;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.concurrent.ExecutionException;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
@@ -34,6 +41,7 @@ public class LiveData extends Activity {
 	private Boolean scaleable = true;
 	private LineGraphSeries<DataPoint> series;
 	private double time = 0;
+	private int numData = 0;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -91,17 +99,19 @@ public class LiveData extends Activity {
 
 						final float mn = min;
 						final float mx = max;
- 
+
 						//rerun the data on the main ui thread
 						runOnUiThread(new Runnable() {
 
 							public void run() {
 
 								if(data!=-1) {
-									series.appendData(dp, true, 100);
-
+									synchronized (series) {
+										series.appendData(dp, true, 100);
+									}
 									graph.onDataChanged(true, false);
 
+									//resize the labels if we need to
 									synchronized(scaleable) {
 
 										if(scaleable) {
@@ -112,6 +122,8 @@ public class LiveData extends Activity {
 											graph.getViewport().setMinY(4);
 											graph.getViewport().setMaxY(20);	
 										}
+										numData++;
+										System.out.println(numData);
 									}
 								}
 							}
@@ -119,6 +131,7 @@ public class LiveData extends Activity {
 
 						time += 5;
 
+						//event based control loop 
 						Thread.sleep(5000-(System.currentTimeMillis()-startTime));
 
 					} catch (InterruptedException e) {
@@ -126,11 +139,12 @@ public class LiveData extends Activity {
 						e.printStackTrace();
 					}
 				}
-			System.out.println("terminated");
-			
+				System.out.println("terminated");
+
 			}
 		});
 
+		//start this thread
 		dataThread.start();
 	}
 
@@ -138,10 +152,11 @@ public class LiveData extends Activity {
 	public void onBackPressed() {
 		GO = false;
 
+		//make the join on another thread so that we can return immediately
 		new Thread(new Runnable() {
-			
+
 			public void run() {
-				 
+
 				try {dataThread.join();} catch (InterruptedException e) {e.printStackTrace();}	
 			}
 		}).start();
@@ -168,12 +183,45 @@ public class LiveData extends Activity {
 				scaleable = true;
 			else if (item.getItemId() == R.id.screenShot) 
 				shareScreenshot();
+			else if (item.getItemId() == R.id.export) 
+				exportToCSV();
 
 		}
 
 		return true;
 	}
 
+	private void exportToCSV() {
+
+		try {
+			Intent sendIntent = new Intent();
+			sendIntent.setAction(Intent.ACTION_SEND);
+			sendIntent.putExtra(Intent.EXTRA_TEXT, generateCSV());
+			sendIntent.setType("text/plain");
+			startActivity(sendIntent);
+
+		}catch(Exception exception) {
+
+		}
+	}
+
+	private String generateCSV() {
+		String toReturn = "";
+
+		synchronized (series) {
+			Iterator<DataPoint> data = series.getValues(0, numData);
+			while(data.hasNext()) {
+				toReturn+=data.next().toString().replace("[", "").replace("]", "").replace("/", ",")+"\r\n";
+				System.out.println(toReturn);
+
+			}
+		}
+		System.out.println(toReturn);
+		return toReturn;
+
+	}
+
+	//self explanatory
 	private void shareScreenshot() {
 
 		try {
@@ -185,19 +233,28 @@ public class LiveData extends Activity {
 
 			Intent share = new Intent(Intent.ACTION_SEND);
 			share.setType("image/jpeg");
-		
+
 			ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 			b.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
 			String path = MediaStore.Images.Media.insertImage(getContentResolver(),b, "Title", null);
-			
+
 			Uri imageUri =  Uri.parse(path);
 			share.putExtra(Intent.EXTRA_STREAM, imageUri);
-			
+
 			startActivity(Intent.createChooser(share, "Select"));
 		}catch(Exception exception) {
 			exception.printStackTrace();
 		}
 	}
 
-}
+	@Override
+	protected void onDestroy() {
+		try {
+			dataThread.join();
+		} catch (InterruptedException e) {
 
+			e.printStackTrace();
+		}
+		super.onDestroy();
+	}
+}
