@@ -1,5 +1,8 @@
 package com.example.moddroid;
 
+import java.io.File;
+import java.io.FileOutputStream;
+
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.DataPointInterface;
@@ -8,10 +11,17 @@ import com.jjoe64.graphview.series.OnDataPointTapListener;
 import com.jjoe64.graphview.series.Series;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 public class LiveData extends Activity {
@@ -39,23 +49,27 @@ public class LiveData extends Activity {
 		modbus = new Modbus(ip, Modbus.DEFAULT_PORT);
 
 		graph = (GraphView)findViewById(R.id.graph);
+	    graph.getViewport().setBackgroundColor(Color.argb(255, 222, 222, 222));
 
 		series = new LineGraphSeries<DataPoint>();
-		
+ 
 		//make each point tappable
 		series.setOnDataPointTapListener(new OnDataPointTapListener() {
 
 			@Override
 			public void onTap(Series arg0, DataPointInterface arg1) {
-				Toast.makeText(getApplicationContext(), "Value: "+arg1.getY(), Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "Time: "+arg1.getX()+"\nValue: "+arg1.getY(), Toast.LENGTH_SHORT).show();
 
 			}
 		});
 
 		graph.addSeries(series);
 		graph.getViewport().setYAxisBoundsManual(true);
+		series.setDrawDataPoints(true);
+		series.setColor(Color.RED);
+		series.setDataPointsRadius(4);
+		series.setThickness(4);
 
-		
 		//a thread to get the data
 		dataThread = new Thread(new Runnable() {
 
@@ -69,7 +83,7 @@ public class LiveData extends Activity {
 					try {
 						//get start time for the contol loop
 						long startTime = System.currentTimeMillis();
-					
+
 						final float data = modbus.getDataFromInputRegister(address);
 						final DataPoint dp = new DataPoint(time, data);
 
@@ -88,7 +102,7 @@ public class LiveData extends Activity {
 							public void run() {
 
 								if(data!=-1) {
-									series.appendData(dp, true, 50);
+									series.appendData(dp, true, 500);
 
 									graph.onDataChanged(true, false);
 
@@ -108,9 +122,9 @@ public class LiveData extends Activity {
 						});
 
 						time += 5;
-						
+
 						Thread.sleep(5000-(System.currentTimeMillis()-startTime));
-						
+
 					} catch (InterruptedException e) {
 
 						e.printStackTrace();
@@ -128,16 +142,18 @@ public class LiveData extends Activity {
 		GO = false;
 
 		try {dataThread.join();} catch (InterruptedException e) {e.printStackTrace();}	
-	
+
 		finish();
-		
+
 		super.onBackPressed();
 	}
-	
+
+
 	//self explanatory
 	public boolean onCreateOptionsMenu(Menu menu) {
 
-		getMenuInflater().inflate(R.menu.main, menu);
+		getMenuInflater().inflate(R.menu.main, menu);  // Locate MenuItem with ShareActionProvider
+
 		return true;
 	}
 
@@ -148,8 +164,44 @@ public class LiveData extends Activity {
 				scaleable = false;
 			else if(item.getItemId() == R.id.scaled) 
 				scaleable = true;
+			else if (item.getItemId() == R.id.screenShot) 
+				shareScreenshot();
+
 		}
 
 		return true;
 	}
+
+	private void shareScreenshot() {
+
+		try {
+			View screenView = getWindow().getDecorView().findViewById(android.R.id.content);
+			screenView.setDrawingCacheEnabled(true);
+
+			Bitmap bitmap = Bitmap.createBitmap(screenView.getDrawingCache());
+			screenView.setDrawingCacheEnabled(false);
+
+			ContextWrapper cw = new ContextWrapper(getApplicationContext());
+			File dir = cw.getDir("imageDir", Context.MODE_PRIVATE);
+			File path = new File(dir,"screenshot.jpg");
+
+			FileOutputStream fos = new FileOutputStream(path);
+			bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+			fos.close();	
+
+
+
+			Intent intent = new Intent();
+			intent.setAction(Intent.ACTION_SEND);
+			intent.setType("image/*");
+			intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Screenshot");
+			intent.putExtra(android.content.Intent.EXTRA_TEXT, "Share");
+			intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(path));
+			startActivity(Intent.createChooser(intent, "Share Via"));
+
+		}catch(Exception exception) {
+			exception.printStackTrace();
+		}
+	}
+
 }

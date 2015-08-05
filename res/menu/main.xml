@@ -12,4 +12,10 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="4-20 mA"/>
+    <item
+        android:id="@+id/screenShot"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="Share Screenshot"/>
+
 </menu>

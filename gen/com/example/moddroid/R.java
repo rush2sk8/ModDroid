@@ -37,6 +37,7 @@ public final class R {
         public static final int nameLabel=0x7f080002;
         public static final int saveSettings=0x7f080007;
         public static final int scaled=0x7f08000c;
+        public static final int screenShot=0x7f08000e;
         public static final int settingsButton=0x7f080004;
         public static final int tudorFace=0x7f080005;
         public static final int viewButton=0x7f080003;
