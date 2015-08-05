@@ -183,10 +183,10 @@ public class LiveData extends Activity {
 				scaleable = true;
 			else if (item.getItemId() == R.id.screenShot) 
 				shareScreenshot();
-			else if (item.getItemId() == R.id.export) 
-				exportToCSV();
+		//	else if (item.getItemId() == R.id.export) 
+			//	exportToCSV();
 
-		}
+		} 
 
 		return true;
 	}
