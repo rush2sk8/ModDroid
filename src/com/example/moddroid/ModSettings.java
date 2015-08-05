@@ -19,7 +19,7 @@ public class ModSettings extends Activity {
 	private SharedPreferences preferences; 
 	private EditText ip;
 	private EditText addresses;
-	private Button save,delFace;
+	private Button save;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -29,7 +29,6 @@ public class ModSettings extends Activity {
 		ip = (EditText)findViewById(R.id.ipTextField);
 		addresses = (EditText)findViewById(R.id.addresses);
 		save = (Button)findViewById(R.id.saveSettings);
-		delFace = (Button)findViewById(R.id.deleteFace);
 
 		//hide the keyboard
 		View view = this.getCurrentFocus();
@@ -43,20 +42,7 @@ public class ModSettings extends Activity {
 		ip.setText(preferences.getString("ip", ""));
 		addresses.setText(preferences.getStringSet("addresses", new TreeSet<String>()).toString());
 
-		//del face
-		if(preferences.getInt("FIRST_LAUNCH", -1)==-1) 
-			delFace.setEnabled(false);
-
-		//make a listener
-		delFace.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				preferences.edit().putInt("FIRST_LAUNCH", CameraActivity.FIRST_LAUNCH).apply();;
-				delFace.setEnabled(false);
-			}
-		});
-
+	
 		final SharedPreferences.Editor editor = preferences.edit();
 
 		save.setOnClickListener(new OnClickListener() {
