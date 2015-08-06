@@ -34,19 +34,19 @@ public class ModSettings extends Activity {
 		save = (Button)findViewById(R.id.saveSettings);
 
 		//hide the keyboard
-		hideKeyboard(getCurrentFocus());
-		
+		hideKeyboard(findViewById(R.id.layout));
+
 		RelativeLayout layout = (RelativeLayout) findViewById(R.id.layout);
 		layout.setOnTouchListener(new OnTouchListener() {
-			
+
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-			
+
 				hideKeyboard(v);
 				return false;
 			}
 		});
-		
+
 		//get the preferences thing
 		preferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
 		ip.setText(preferences.getString("ip", ""));
@@ -78,7 +78,6 @@ public class ModSettings extends Activity {
 				editor.apply();
 
 				//start the activity
-				startActivity(new Intent(getApplicationContext(),MainActivity.class));
 				finish();
 			}
 		});
@@ -88,6 +87,12 @@ public class ModSettings extends Activity {
 
 		InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		in.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+	}
+
+	@Override
+	public void onBackPressed() {
+		finish();
+		super.onBackPressed();
 	}
 
 }
