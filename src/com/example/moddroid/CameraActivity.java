@@ -35,11 +35,14 @@ public class CameraActivity extends Activity {
 			Toast.makeText(getApplicationContext(), "You dont have a camera now exiting", Toast.LENGTH_LONG).show();
 			System.exit(0);
 		}
-		readFirstTime();*/
+		readFirstTime();
+		*/
+		
 		startActivity(new Intent(getApplicationContext(), MainActivity.class));
 		finish();
 	}
 
+	@SuppressWarnings("unused")
 	private void readFirstTime(){
 
 		preferences = this.getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);

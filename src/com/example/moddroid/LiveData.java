@@ -1,13 +1,7 @@
 package com.example.moddroid;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Date;
 import java.util.Iterator;
-import java.util.concurrent.ExecutionException;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
@@ -59,7 +53,7 @@ public class LiveData extends Activity {
 
 		series = new LineGraphSeries<DataPoint>();
 
-		//make each point tappable
+		//make each point tap-able
 		series.setOnDataPointTapListener(new OnDataPointTapListener() {
 
 			public void onTap(Series arg0, DataPointInterface arg1) {
@@ -85,7 +79,7 @@ public class LiveData extends Activity {
 
 				while(GO) {
 					try {
-						//get start time for the contol loop
+						//get start time for the control loop
 						long startTime = System.currentTimeMillis();
 
 						final float data = modbus.getDataFromInputRegister(address);
@@ -191,6 +185,7 @@ public class LiveData extends Activity {
 		return true;
 	}
 
+	@SuppressWarnings("unused")
 	private void exportToCSV() {
 
 		try {
