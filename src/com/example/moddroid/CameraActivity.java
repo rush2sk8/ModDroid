@@ -32,7 +32,7 @@ public class CameraActivity extends Activity {
 		setContentView(R.layout.activity_camera);
 
 		/*	if(!getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
-			Toast.makeText(getApplicationContext(), "You dont have a camera now exiting", Toast.LENGTH_LONG).show();
+			Toast.makeText(getApplicationContext(), "You don't have a camera now exiting", Toast.LENGTH_LONG).show();
 			System.exit(0);
 		}
 		readFirstTime();
