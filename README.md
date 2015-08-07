@@ -1,4 +1,4 @@
 # ModDroid
 Modbus android app 
-<code>@SuppressWarning("unused")</code>
+<p><code>@SuppressWarning("unused")</code></p>
 with facial recognition
